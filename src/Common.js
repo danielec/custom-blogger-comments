@@ -77,15 +77,15 @@ if(!this.cbc.translations)
 	this.cbc.translations = [];
 
 this.cbc.applyTranslates = function(){
-	if(getElementById && getElementsByTagName){
-		var container = getElementById('comments');
+	if(document.getElementById && document.getElementsByTagName){
+		var container = document.getElementById('comments');
 		var pels = container.getElementsByTagName("p");
 		for(var i = 0; i < pels.length; i++){
 			var el = pels[i];
 			if(this.cbc.hasClass(el, 'comment-content')){
 				//This is a comment content container
 				var html = el.innerHTML;
-				for(var j = 0; j < this.cbc.translations; j++){
+				for(var j = 0; j < this.cbc.translations.length; j++){
 					html = this.cbc.matchAndTranslate(html, this.cbc.translations[j]);
 				}
 				el.innerHTML = html;
@@ -105,10 +105,14 @@ this.cbc.matchAndTranslate = function(html, obj){
 	
 	if(!key || !funct || !funct.call) return html;
 	
-	var re = new RegExp(key);
-	var m = re.exec(html);
+	do{
+		var re = new RegExp(key);
+		var m = re.exec(html);
+		
+		html = funct.call(this, html, m); 
+	}while(m != null);
 	
-	return funct.call(html, m);
+	return html;
 }
 
 
