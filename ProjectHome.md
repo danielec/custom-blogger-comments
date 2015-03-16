@@ -1,0 +1,1 @@
+This script allow to customize your Blog, giving to the users the ability to add RTF into comments
